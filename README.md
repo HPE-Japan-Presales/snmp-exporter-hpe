@@ -12,7 +12,7 @@ HPE Product. No need to use SNMP exporter generator for creating snmp.yml. These
 
 You can see more details of HPE SIM [here](https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c04272529).  
 SNMP-Exporter details are [here](https://github.com/prometheus/snmp_exporter).  
-Sample scraping data is [here](docs/sample_outpu_data.txt).
+Sample scraping data is [here](docs/sample_output_data.txt).
 
 ## Docker Images
 You can get images from [Dockerhub](https://hub.docker.com/r/fideltak/snmp-exporter-hpe).
