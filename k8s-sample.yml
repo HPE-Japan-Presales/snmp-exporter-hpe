@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,6 +15,57 @@ spec:
     spec:
       containers:
       - name: snmp-exporter-hpe
-        image: snmp-exporter-hpe:upd11_50mib_v0.1
+        image: fideltak/snmp-exporter-hpe:upd11_50mib_v0.1
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 80
+        - containerPort: 9116
+          name: http
+          protocol: TCP
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: http
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: http
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snmp-exporter-hpe
+spec:
+  selector:
+    app: snmp-exporter-hpe
+  ports:
+  - name: exporter
+    port: 9116
+    targetPort: 9116
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: snmp-exporter-hpe
+ annotations:
+    kubernetes.io/ingress.class: gloo
+spec:
+  rules:
+  - host: snmp-exporter-hpe01.hybrid-lab.local
+    http:
+      paths:
+      - path: /.*
+        backend:
+          serviceName: snmp-exporter-hpe
+          servicePort: 9116
