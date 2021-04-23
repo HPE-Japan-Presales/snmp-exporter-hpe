@@ -1,0 +1,16 @@
+modules:
+  hpe-sim:
+    walk: 
+      - 1.3.6.1.2.1       #SNMP MIB-2
+      - 1.3.6.1.4.1       #Enterprise
+    version: 3
+    max_repetitions: 25
+    retries: 3
+    timeout: 10s
+    auth:
+      username: prometheus
+      security_level: authPriv
+      password: password
+      auth_protocol: SHA
+      priv_protocol: AES
+      priv_password: password

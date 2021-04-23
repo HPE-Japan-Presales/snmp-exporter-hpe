@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snmp-exporter-hpe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snmp-exporter-hpe
+  template:
+    metadata:
+      labels:
+        app: snmp-exporter-hpe
+    spec:
+      containers:
+      - name: snmp-exporter-hpe
+        image: snmp-exporter-hpe:upd11_50mib_v0.1
+        ports:
+        - containerPort: 80
